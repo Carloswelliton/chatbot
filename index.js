@@ -3,6 +3,26 @@ const { useMultiFileAuthState, DisconnectReason } = require('@whiskeysockets/bai
 const P = require('pino');
 const QRCode = require('qrcode-terminal');
 const { join } = require('path');
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+
+let latestQr = null;
+
+app.get('/', (req, res) => {
+  if (!latestQr) {
+    return res.send('<h2>QR code ainda não gerado. Aguarde...</h2>');
+  }
+  res.send(`
+    <h1>Escaneie o QR code para conectar</h1>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(latestQr)}&size=300x300" alt="QR Code" />
+    <p>Se não conseguir escanear, atualize a página.</p>
+  `);
+});
+
+app.listen(port, () => {
+  console.log(`Servidor rodando na porta ${port}`);
+});
 
 const sessions = {};
 const OPERADOR_NUMERO = process.env.WHATSAPP_NUMBER; 
@@ -30,9 +50,9 @@ async function iniciarBot() {
     const { connection, lastDisconnect, qr } = update;
 
     if (qr) {
-      console.log('📸 Escaneie este QR code no WhatsApp:');
-      QRCode.generate(qr, { small: true });
-    }
+    latestQr = qr; // salva o qr code para a rota web
+    console.log('📸 Escaneie este QR code no WhatsApp (link disponível na rota /)');
+  }
 
     console.log('Conexão:', connection);
 
@@ -206,5 +226,7 @@ async function iniciarBot() {
     }
   });
 }
+
+
 
 iniciarBot();
