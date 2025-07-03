@@ -1,7 +1,7 @@
 📱 Chatbot WhatsApp - Assistente Virtual Automatizado
-![whatsApp](https://img.shields.io/badge/WhatsApp-Bot-green)
-![NodeJS]https://img.shields.io/badge/Node.js-18+-success 
-![MIT]https://img.shields.io/badge/License-MIT-blue
+![whatsApp](https://img.shields.io/badge/WhatsApp-Bot-green),
+![NodeJS](https://img.shields.io/badge/Node.js-18+-success )
+![MIT](https://img.shields.io/badge/License-MIT-blue)
 
 Um chatbot inteligente para WhatsApp que oferece atendimento automatizado com sistema de sessões, menu hierárquico e integração web para autenticação via QR Code.
 
