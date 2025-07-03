@@ -97,3 +97,5 @@ Distribuído sob licença MIT. Veja LICENSE para mais informações.
 Carlos Welliton - carloswelliton7@gmail.com
 
 Link do Projeto: https://github.com/seu-usuario/chatbot-whats
+
+>**Nota:** Este projeto não é afiliado ao WhatsApp Inc. e deve ser usado em conformidade com os Termos de Serviço do WhatsApp.
