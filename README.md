@@ -75,11 +75,6 @@ Encaminha para atendente ou registra solicitação
 ```text
 .
 ├── auth/
-├── src/
-│   ├── handlers/
-│   ├── services/
-│   ├── utils/
-│   └── index.js
 ├── .env.example
 ├── index.js
 └── package.json
