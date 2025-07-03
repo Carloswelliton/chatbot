@@ -66,6 +66,190 @@ async function iniciarBot(){
       }
   });
 
+  //Conversa iniciada
+  sock.env.on('messages.upsert', async ({messages}) => {
+    for(const msg of messages){
+      if(msg.messageTimestamp && msg.messageTimestamp*1000 < botStartTime)continue;
+      if(!msg.message || msg.key.fromMe)continue;
+
+      const sender = msg.key.remoteJid;
+      const textRaw  = msg.message.conversation || msg.meessage.extendedTextMessage?.text || "";
+      const text = textRaw.trim().toLowerCase();
+
+      if(!sessions[sender]){
+        sessions[sender] = {
+          step: 0,
+          name: '',
+          serviceCategory: "",
+          selectedService: "",
+          
+
+        };
+        await safeSendMessage(sock, sender, {
+          text: `Bem vindo(a) À Veterinária Gold Pet, Como posso te chamar?` 
+        });
+        continue;
+      }
+
+      const s = sessions[sender];
+
+      switch (s.step) {
+        case 0:
+          s.name = textRaw;
+          s.step++;
+          await safeSendMessage(sock, sender, {
+            text:
+              `😊 Muito prazer, ${s.name}! Por favor, digite o número da categoria de atendimento que deseja:\n\n` +
+              `1️⃣ Serviços para cães` +
+              `2️⃣ Serviços para gatos` +
+              `3️⃣ Produtos` +
+              `4️⃣ Agendamento` +
+              `5️⃣ Falar com um atendente`,
+          });
+          break;
+        case 1:
+          const clientMsg = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          if(["1", "um", "caes", "cachorro", "servicos para caes"].some(palavra => clientMsg.includes(palavra))){
+            s.serviceCategory = 'Cães';
+            s.step = 2001; //submenu
+            await safeSendMessage(sock, sender, {
+              text:
+                `🐶 Serviços para Cães:\n\n` +
+                `1️⃣ Banho completo\n` +
+                `2️⃣ Tosa higiênica\n` +
+                `3️⃣ Tosa estética\n` +
+                `4️⃣ Banho terapêutico\n` +
+                `5️⃣ Voltar`
+            });
+          }
+          else if(["2", "dois", "gatos", "gato", "serviços para gatos", "servicos para gatos","serviços para gatos", "servicos para gatos"].some(palavra=>clientMsg.includes(palavra))){
+            s.serviceCategory = "Gatos";
+            s.step = 2002; // submenu
+            await safeSendMessage(sock, sender, {
+              text:
+                `🐱 Serviços para Gatos:\n\n` +
+                `1️⃣ Banho completo\n` +
+                `2️⃣ Tosa higiênica\n` +
+                `3️⃣ Tosa estética\n` +
+                `4️⃣ Banho terapêutico\n` +
+                `5️⃣ Voltar`,
+            });
+          }
+          else if(["3", "produtos", "produtos"].some(palavra => clientMsg.includes(palavra))){
+            s.step = 2003;
+            await safeSendMessage(sock, sender, {
+              text:
+                `🛍️ Nossos Produtos:\n\n` +
+                `1️⃣ Rações\n` +
+                `2️⃣ Brinquedos\n` +
+                `3️⃣ Medicamentos\n` +
+                `4️⃣ Acessórios\n` +
+                `5️⃣ Voltar`,
+            });
+          }
+          else if(["4", "quatro", "agendar", "agendamento", "agendamentos"].some(palavra=>clientMsg.includes(palavra))){
+            s.step = 2004;
+            await safeSendMessage(sock, sender, {
+              text: 
+              `📅 Agendamentos:\n\n` +
+              `1️⃣ Consulta veterinária\n` +
+              `2️⃣ Banho e tosa\n` +
+              `3️⃣ Hospedagem\n` +
+              `4️⃣ Adestramento\n` +
+              `5️⃣ Voltar`
+            });
+          }
+          else if(["5", "cinco", "falar", "atendente", "falar com atendente", "falar com um atendente"].some(palavra => clientMsg.includes(palavra))){
+            await handleHumanattendant(sock, sender, s);
+            delete sessions[sender];
+          }
+          else{
+            await safeSendMessage(sock, sender, {
+              text: 
+              `❌ Opção inválida, por favor informe uma opção válida`
+            });
+          }
+          break;    
+        case 2001:
+          if(clientMsg === "1"){
+            s.selectedService = "Banho completo para Cães";
+            await askServiceDetails(sock, sender, s);
+          }
+          else if(clientMsg === "2"){
+            s.selectedService = "Tosa higiênica para Cães";
+            await askServiceDetails(sock, sender, s);
+          }
+          else if(clientMsg === "3"){
+            s.selectedService = "Tosa estética para Cães";
+            await askServiceDetails(sock, sender, s);
+          }
+          else if(clientMsg === "4"){
+            s.selectedService = "Banho terapêutico para Cães";
+            await askServiceDetails(sock, sender, s);
+          }
+          else if(clientMsg === "5"){
+            s.step = 1;
+            await showMainMenu(sock, sender, s);
+          }
+          else{
+            await safeSendMessage(sock, sender, {
+              text: '❌ Opção inválida. Por favor, digite um número entre 1 e 5.'
+            });
+          }
+          break;
+        case 2002:
+          if(clientMsg === "1"){
+            s.selectedService = "Banho completo para Gatos";
+            await askServiceDetails(sock, sender, s);
+          }
+          else if(clientMsg === "2"){
+            s.selectedService = "Tosa higiênica para Gatos";
+            await askServiceDetails(sock, sender, s);
+          }
+          else if(clientMsg === "3"){
+            s.selectedService = "Tosa estética para Gatos";
+            await askServiceDetails(sock, sender, s);
+          }
+          else if(clientMsg === "4"){
+            s.selectedService = "Banho terapêutico para Gatos";
+            await askServiceDetails(sock, sender, s);
+          }
+          else if(clientMsg === "5"){
+            s.step = 1;
+            await showMainMenu(sock, sender, s);
+          }
+          else{
+            await safeSendMessage(sock, sender, {
+              text: '❌ Opção inválida. Por favor, digite um número entre 1 e 5.'
+            });
+          }
+          break;
+        case 2003:
+          //TODO
+          break;
+        case 2004:
+          //TODO
+          break;
+      }
+
+      async function askServiceDetails(sock, sender, session){
+        session.step = 50;
+        await safeSendMessage(sock, sender, {
+          text: 
+          `ℹ️ Você selecionou: ${session.selectedService}\n\n` +
+          `Por favor, informe:\n` +
+          `1. Nome do pet\n` +
+          `2. Raça\n` +
+          `3. Idade\n` +
+          `4. Alguma observação especial\n\n` +
+          `Envie tudo em uma única mensagem, por exemplo:\n` +
+          `"Rex, Labrador, 3 anos, tem medo de secador"`
+        });
+      }
+
+    }
+  });
+
 
 
 
