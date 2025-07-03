@@ -1,19 +1,39 @@
 {
   "name": "chatbot-whats",
   "version": "1.0.0",
-  "description": "",
+  "description": "chatbot de atendimento automatizado para petShop",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "type": "commonjs",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "whatsapp",
+    "chatbot",
+    "automation",
+    "baileys",
+    "customer-service"
+  ],
+  "author": "Carlos Welliton",
+  "license": "MIT",
   "dependencies": {
     "@whiskeysockets/baileys": "^6.7.18",
     "express": "^5.1.0",
     "pino": "^9.7.0",
     "qrcode-terminal": "^0.12.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Carloswelliton/chatbot"
+  },
+  "bugs": {
+    "url": "https://github.com/Carloswelliton/chatbot/issues"
   }
 }
