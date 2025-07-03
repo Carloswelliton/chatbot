@@ -4,12 +4,12 @@ const P = require("pino");
 const QRCode = require("qrcode-terminal");
 const {join} = require("path");
 const express = require("express");
-const app = require(express);
+const app = express();
 const port = process.env.PORT || 3000;
 
 let latestQr = null;
 
-app;get("/", (req, res)=> {
+app.get("/", (req, res)=> {
   if(!latestQr){
       return res.send('<h2>QR code ainda não gerado. Aguarde... </h2>');
   }
@@ -32,7 +32,7 @@ async function safeSendMessage(sock, jid, message){
   try {
       await sock.sendMessage(jid, message);
   } catch (error) {
-      console.log(`Erro ao enviar mensagem para ${jid}: , err.message`);
+      console.log(`Erro ao enviar mensagem para ${jid}: ${error.message}`);
   }
 }
 
@@ -44,9 +44,9 @@ async function iniciarBot(){
       logger: P({level: 'silent'})
   });
 
-  sock.env.on('creds.update', saveCreds);
+  sock.ev.on('creds.update', saveCreds);
 
-  sock.env.on('connection.update', async (update) => {
+  sock.ev.on('connection.update', async (update) => {
       const { connection, lastDisconnect, qr } = update;
 
       if(qr){
@@ -67,13 +67,13 @@ async function iniciarBot(){
   });
 
   //Conversa iniciada
-  sock.env.on('messages.upsert', async ({messages}) => {
+  sock.ev.on('messages.upsert', async ({messages}) => {
     for(const msg of messages){
       if(msg.messageTimestamp && msg.messageTimestamp*1000 < botStartTime)continue;
       if(!msg.message || msg.key.fromMe)continue;
 
       const sender = msg.key.remoteJid;
-      const textRaw  = msg.message.conversation || msg.meessage.extendedTextMessage?.text || "";
+      const textRaw  = msg.message.conversation || msg.message.extendedTextMessage?.text || "";
       const text = textRaw.trim().toLowerCase();
 
       if(!sessions[sender]){
@@ -100,10 +100,10 @@ async function iniciarBot(){
           await safeSendMessage(sock, sender, {
             text:
               `😊 Muito prazer, ${s.name}! Por favor, digite o número da categoria de atendimento que deseja:\n\n` +
-              `1️⃣ Serviços para cães` +
-              `2️⃣ Serviços para gatos` +
-              `3️⃣ Produtos` +
-              `4️⃣ Agendamento` +
+              `1️⃣ Serviços para cães\n` +
+              `2️⃣ Serviços para gatos\n` +
+              `3️⃣ Produtos\n` +
+              `4️⃣ Agendamento\n` +
               `5️⃣ Falar com um atendente`,
           });
           break;
@@ -171,50 +171,46 @@ async function iniciarBot(){
           }
           break;    
         case 2001:
-          if(clientMsg === "1"){
+          if(text === "1"){
             s.selectedService = "Banho completo para Cães";
             await askServiceDetails(sock, sender, s);
           }
-          else if(clientMsg === "2"){
+          else if (text === "2") {
             s.selectedService = "Tosa higiênica para Cães";
             await askServiceDetails(sock, sender, s);
-          }
-          else if(clientMsg === "3"){
+          } else if (text === "3") {
             s.selectedService = "Tosa estética para Cães";
             await askServiceDetails(sock, sender, s);
-          }
-          else if(clientMsg === "4"){
+          } else if (text === "4") {
             s.selectedService = "Banho terapêutico para Cães";
             await askServiceDetails(sock, sender, s);
-          }
-          else if(clientMsg === "5"){
+          } else if (text === "5") {
             s.step = 1;
             await showMainMenu(sock, sender, s);
-          }
-          else{
+          } else {
             await safeSendMessage(sock, sender, {
-              text: '❌ Opção inválida. Por favor, digite um número entre 1 e 5.'
+              text: "❌ Opção inválida. Por favor, digite um número entre 1 e 5.",
             });
           }
           break;
         case 2002:
-          if(clientMsg === "1"){
+          if(text === "1"){
             s.selectedService = "Banho completo para Gatos";
             await askServiceDetails(sock, sender, s);
           }
-          else if(clientMsg === "2"){
+          else if(text === "2"){
             s.selectedService = "Tosa higiênica para Gatos";
             await askServiceDetails(sock, sender, s);
           }
-          else if(clientMsg === "3"){
+          else if(text === "3"){
             s.selectedService = "Tosa estética para Gatos";
             await askServiceDetails(sock, sender, s);
           }
-          else if(clientMsg === "4"){
+          else if(text === "4"){
             s.selectedService = "Banho terapêutico para Gatos";
             await askServiceDetails(sock, sender, s);
           }
-          else if(clientMsg === "5"){
+          else if(text === "5"){
             s.step = 1;
             await showMainMenu(sock, sender, s);
           }
@@ -256,3 +252,5 @@ async function iniciarBot(){
 
 
 }
+
+iniciarBot();
