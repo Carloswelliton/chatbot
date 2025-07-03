@@ -155,7 +155,7 @@ async function iniciarBot(){
               `1️⃣ Consulta veterinária\n` +
               `2️⃣ Banho e tosa\n` +
               `3️⃣ Hospedagem\n` +
-              `4️⃣ Adestramento\n` +
+              `4️⃣ Castração\n` +
               `5️⃣ Voltar`
             });
           }
