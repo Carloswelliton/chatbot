@@ -1,113 +1,104 @@
-📱 Chatbot WhatsApp - Assistente Virtual Automatizado
-![whatsApp](https://img.shields.io/badge/WhatsApp-Bot-green)
-![NodeJS](https://img.shields.io/badge/Node.js-18+-success )
-![MIT](https://img.shields.io/badge/License-MIT-blue)
+# 🤖 Chatbot WhatsApp - Assistente Virtual Automatizado
 
-Um chatbot inteligente para WhatsApp que oferece atendimento automatizado com sistema de sessões, menu hierárquico e integração web para autenticação via QR Code.
+![WhatsApp Bot](https://img.shields.io/badge/WhatsApp-Bot-green)
+![Node.js](https://img.shields.io/badge/Node.js-18+-success)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
-✨ Funcionalidades Principais
-Atendimento Automatizado com fluxo conversacional
+Um chatbot inteligente para WhatsApp que oferece atendimento automatizado com sistema de sessões e menu hierárquico.
 
-Sistema de Sessões para acompanhamento de cada usuário
+## 📌 Índice
+- [Funcionalidades](#-funcionalidades-principais)
+- [Tecnologias](#-tecnologias-utilizadas)
+- [Instalação](#-como-executar)
+- [Configuração](#-configuração)
+- [Uso](#-fluxo-de-atendimento)
+- [Estrutura](#-estrutura-do-projeto)
+- [Contribuição](#-como-contribuir)
+- [Licença](#-licença)
 
-Menu Hierárquico com múltiplos níveis de navegação
+## ✨ Funcionalidades Principais
+- Atendimento automatizado por mensagens
+- Sistema de sessões por usuário
+- Menu interativo com múltiplos níveis
+- Autenticação via QR Code web
+- Avaliação de atendimento
+- Redirecionamento para atendente humano
 
-Web Interface para autenticação via QR Code
+## 🛠️ Tecnologias Utilizadas
+- Node.js v18+
+- [Baileys](https://github.com/whiskeysockets/Baileys) (API WhatsApp)
+- Express.js
+- Pino (logging)
+- QRCode Terminal
 
-Avaliação de Atendimento com feedback
+## 🚀 Como Executar
 
-Redirecionamento para atendente humano quando necessário
+### Pré-requisitos
+- Node.js 18+ instalado
+- NPM ou Yarn
+- Número do WhatsApp válido
 
-🛠️ Tecnologias Utilizadas
-Baileys - Biblioteca WhatsApp Web API
-
-Express.js - Servidor web para QR Code
-
-Pino - Logging estruturado
-
-Jest - Testes unitários
-
-ESLint + Prettier - Padronização de código
-
-🚀 Como Executar
-Pré-requisitos
-Node.js 18+
-
-NPM 9+
-
-WhatsApp Business ou número de telefone válido
-
-Instalação
-Clone o repositório:
-
-bash
+### Instalação
+```bash
 git clone https://github.com/seu-usuario/chatbot-whatsapp.git
 cd chatbot-whatsapp
-Instale as dependências:
-
-bash
 npm install
-Crie um arquivo .env na raiz do projeto:
+```
+## Configuração
+Crie um arquivo .env na raiz:
 
+```bach
 env
 WHATSAPP_NUMBER=5511999999999
 PORT=3000
-Executando o Bot
-Para desenvolvimento (com reinício automático):
+```
+Iniciar o Bot
 
-bash
-npm run dev
-Para produção:
-
-bash
+```bash 
 npm start
-Acesse o QR Code em: http://localhost:3000
+Acesse http://localhost:3000 para escanear o QR Code
+```
+## 📋 Fluxo de Atendimento
+Usuário envia mensagem
 
-📋 Fluxo de Atendimento
-Boas-vindas e coleta do nome
+Bot coleta informações:
 
-Menu Principal com categorias de serviços
+Nome
 
-Submenus específicos para cada tipo de serviço
+Tipo de serviço necessário
 
-Coleta de informações detalhadas
+Detalhes adicionais
 
-Confirmação e encaminhamento
+Encaminha para atendente ou registra solicitação
 
-Avaliação do atendimento
-
-🧩 Estrutura do Projeto
-text
-chatbot-whatsapp/
-├── auth/                  # Dados de autenticação
-├── node_modules/
+## 🏗️ Estrutura do Projeto
+```text
+.
+├── auth/
 ├── src/
-│   ├── handlers/          # Manipuladores de mensagens
-│   ├── services/          # Lógica de negócios
-│   ├── utils/             # Utilitários
-│   └── index.js           # Ponto de entrada
-├── .env.example           # Modelo de variáveis de ambiente
-├── .eslintrc.js           # Configuração ESLint
-├── .gitignore
-├── package.json
-└── README.md
-🤝 Como Contribuir
-Faça um fork do projeto
+│   ├── handlers/
+│   ├── services/
+│   ├── utils/
+│   └── index.js
+├── .env.example
+├── index.js
+└── package.json
+```
+## 🤝 Como Contribuir
+Faça um Fork do projeto
 
-Crie uma branch (git checkout -b feature/nova-feature)
+Crie uma Branch (git checkout -b feature/nova-feature)
 
-Commit suas alterações (git commit -m 'Adiciona nova feature')
+Commit suas Mudanças (git commit -m 'Add some feature')
 
-Push para a branch (git push origin feature/nova-feature)
+Push para a Branch (git push origin feature/nova-feature)
 
 Abra um Pull Request
 
-📄 Licença
-Este projeto está licenciado sob a licença MIT - veja o arquivo LICENSE para detalhes.
+## 📄 Licença
+Distribuído sob licença MIT. Veja LICENSE para mais informações.
 
-📧 Contato
-Seu Nome - @seu_twitter - seu.email@exemplo.com
+## ✉️ Contato
+Carlos Welliton - carloswelliton7@gmail.com
 
-Link do Projeto: https://github.com/seu-usuario/chatbot-whatsapp
-
-Nota: Este projeto não é afiliado ao WhatsApp Inc. e deve ser usado em conformidade com os Termos de Serviço do WhatsApp.
+Link do Projeto: https://github.com/seu-usuario/chatbot-whats
