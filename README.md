@@ -48,13 +48,14 @@ Um chatbot inteligente para WhatsApp que oferece atendimento automatizado com si
 git clone https://github.com/seu-usuario/chatbot-whatsapp.git
 cd chatbot-whatsapp
 npm install
+npm run start
 ```
 
 ## Configuração
 
 Crie um arquivo .env na raiz:
 
-```bach
+```bash
 env
 WHATSAPP_NUMBER=5511999999999
 PORT=3000
@@ -69,26 +70,36 @@ Acesse http://localhost:3000 para escanear o QR Code
 
 ## 📋 Fluxo de Atendimento
 
-Usuário envia mensagem
+```mermaid
+sequenceDiagram
+user->> bot: Usuário inicia a conversa
+bot-->>system: coleta as informações
+bot->>user: continua o fluxo de atendimento
+user->>bot: solicita agendamento
+bot-->>system: envia as informações de <br>agendamento para o sistema
+system-->>bd: persiste as informações do usuario
+system-->>atendente: notifica atendente
+atendente->>user: Entra em contato para tirar dúvidas
 
-Bot coleta informações:
-
-Nome
-
-Tipo de serviço necessário
-
-Detalhes adicionais
-
-Encaminha para atendente ou registra solicitação
+```
 
 ## 🏗️ Estrutura do Projeto
 
 ```text
 .
-├── auth/
-├── .env.example
-├── index.js
-└── package.json
+├── src/ 
+│ ├── auth/ 
+│ ├── handlers/ 
+│ ├── utils/ 
+│ └── app.js
+├── .editorconfig
+├── .env
+├── .gitignore
+├── .prettierignore
+├── .prettierrc
+├── package.json
+├── package-lock.json
+└── README.md
 ```
 
 ## 🤝 Como Contribuir
