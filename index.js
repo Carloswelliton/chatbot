@@ -161,14 +161,18 @@ async function iniciarBot() {
             }
             delete sessions[sender];
           } else {
-            await safeSendMessage(sock, sender, { text: '❌ Opção inválida. Digite 1 ou 2.' });
+            await safeSendMessage(sock, sender, {
+              text: '❌ Opção inválida. Digite 1 ou 2.',
+            });
           }
           break;
 
         case 4: // Descrição do problema
           s.problem = textRaw;
           s.step++;
-          await safeSendMessage(sock, sender, { text: '📅 Desde quando o problema ocorre?' });
+          await safeSendMessage(sock, sender, {
+            text: '📅 Desde quando o problema ocorre?',
+          });
           break;
 
         case 5: // Desde quando

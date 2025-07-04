@@ -6,5 +6,8 @@
   "printWidth": 100,
   "bracketSpacing": true,
   "arrowParens": "always",
-  "endOfLine": "lf"
+  "endOfLine": "lf",
+  "jsonEnable": true,
+  "jsonWhitespace": 2,
+  "quoteProps": "preserve"
 }
