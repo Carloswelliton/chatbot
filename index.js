@@ -25,7 +25,7 @@ app.listen(port, () => {
 });
 
 const sessions = {};
-const OPERADOR_NUMERO = process.env.WHATSAPP_NUMBER; 
+const OPERADOR_NUMERO = process.env.WHATSAPP_NUMBER;
 const bloqueados = new Set();
 
 async function safeSendMessage(sock, jid, message) {
@@ -50,9 +50,9 @@ async function iniciarBot() {
     const { connection, lastDisconnect, qr } = update;
 
     if (qr) {
-    latestQr = qr; // salva o qr code para a rota web
-    console.log('📸 Escaneie este QR code no WhatsApp (link disponível na rota /)');
-  }
+      latestQr = qr; // salva o qr code para a rota web
+      console.log('📸 Escaneie este QR code no WhatsApp (link disponível na rota /)');
+    }
 
     console.log('Conexão:', connection);
 
@@ -68,7 +68,7 @@ async function iniciarBot() {
 
   sock.ev.on('messages.upsert', async ({ messages }) => {
     for (const msg of messages) {
-      if(msg.messageTimestamp && msg.messageTimestamp*1000 < botStartTime)continue;
+      if (msg.messageTimestamp && msg.messageTimestamp * 1000 < botStartTime) continue;
       if (!msg.message || msg.key.fromMe) continue;
 
       const sender = msg.key.remoteJid;
@@ -87,7 +87,7 @@ async function iniciarBot() {
           rating: null,
         };
         await safeSendMessage(sock, sender, {
-          text: '🤖 Olá! Eu sou o assistente virtual.\nComo posso te chamar?'
+          text: '🤖 Olá! Eu sou o assistente virtual.\nComo posso te chamar?',
         });
         continue;
       }
@@ -99,27 +99,27 @@ async function iniciarBot() {
           s.name = textRaw;
           s.step++;
           await safeSendMessage(sock, sender, {
-            text: `😊 Prazer, ${s.name}! Qual atendimento gostaria? Responda com o número:\n\n1️⃣ Banho\n2️⃣ Tosa\n3️⃣ Banho e Tosa\n4️⃣ Pet Shop\n5️⃣ Falar com um atendente`
+            text: `😊 Prazer, ${s.name}! Qual atendimento gostaria? Responda com o número:\n\n1️⃣ Banho\n2️⃣ Tosa\n3️⃣ Banho e Tosa\n4️⃣ Pet Shop\n5️⃣ Falar com um atendente`,
           });
           break;
 
         case 1: // Gênero
-          if (['1','2','3','4','5'].includes(text)) {
+          if (['1', '2', '3', '4', '5'].includes(text)) {
             const genders = {
-              '1': 'Banho',
-              '2': 'Tosa',
-              '3': 'Banho e Tosa',
-              '4': 'Pet Shop',
-              '5': 'Falar com um atendente'
+              1: 'Banho',
+              2: 'Tosa',
+              3: 'Banho e Tosa',
+              4: 'Pet Shop',
+              5: 'Falar com um atendente',
             };
             s.gender = genders[text];
             s.step++;
             await safeSendMessage(sock, sender, {
-              text: '🧮 Qual sua idade? (Digite um número)'
+              text: '🧮 Qual sua idade? (Digite um número)',
             });
           } else {
             await safeSendMessage(sock, sender, {
-              text: '❌ Opção inválida. Por favor, digite um número entre 1 e 5 para seu gênero.'
+              text: '❌ Opção inválida. Por favor, digite um número entre 1 e 5 para seu gênero.',
             });
           }
           break;
@@ -130,11 +130,11 @@ async function iniciarBot() {
             s.age = idade;
             s.step++;
             await safeSendMessage(sock, sender, {
-              text: `🎯 Obrigado! Agora selecione uma opção:\n\n1️⃣ Reportar um problema\n2️⃣ Falar com um atendente humano`
+              text: `🎯 Obrigado! Agora selecione uma opção:\n\n1️⃣ Reportar um problema\n2️⃣ Falar com um atendente humano`,
             });
           } else {
             await safeSendMessage(sock, sender, {
-              text: '❌ Idade inválida. Por favor, digite um número válido.'
+              text: '❌ Idade inválida. Por favor, digite um número válido.',
             });
           }
           break;
@@ -142,17 +142,21 @@ async function iniciarBot() {
         case 3: // Menu principal
           if (text === '1') {
             s.step = 4;
-            await safeSendMessage(sock, sender, { text: '❓ Qual o problema que está enfrentando?' });
+            await safeSendMessage(sock, sender, {
+              text: '❓ Qual o problema que está enfrentando?',
+            });
           } else if (text === '2') {
-            await safeSendMessage(sock, sender, { text: '👨‍💼 Redirecionando para um atendente humano...' });
+            await safeSendMessage(sock, sender, {
+              text: '👨‍💼 Redirecionando para um atendente humano...',
+            });
             try {
               await safeSendMessage(sock, OPERADOR_NUMERO, {
-                text: `📲 Novo atendimento:\n• Cliente: ${s.name}\n• Número: ${sender}\n• Gênero: ${s.gender}\n• Idade: ${s.age}`
+                text: `📲 Novo atendimento:\n• Cliente: ${s.name}\n• Número: ${sender}\n• Gênero: ${s.gender}\n• Idade: ${s.age}`,
               });
             } catch (err) {
               console.log('Erro ao notificar operador:', err.message);
               await safeSendMessage(sock, sender, {
-                text: '⚠️ No momento não foi possível conectar com um atendente. Por favor, tente novamente mais tarde.'
+                text: '⚠️ No momento não foi possível conectar com um atendente. Por favor, tente novamente mais tarde.',
               });
             }
             delete sessions[sender];
@@ -171,11 +175,11 @@ async function iniciarBot() {
           s.when = textRaw;
           s.step++;
           await safeSendMessage(sock, sender, {
-            text: `📝 Resumo:\n• Nome: ${s.name}\n• Gênero: ${s.gender}\n• Idade: ${s.age}\n• Problema: ${s.problem}\n• Desde: ${s.when}\n\n📨 Encaminharemos para o setor responsável.`
+            text: `📝 Resumo:\n• Nome: ${s.name}\n• Gênero: ${s.gender}\n• Idade: ${s.age}\n• Problema: ${s.problem}\n• Desde: ${s.when}\n\n📨 Encaminharemos para o setor responsável.`,
           });
           setTimeout(async () => {
             await safeSendMessage(sock, sender, {
-              text: '✅ Atendimento finalizado. De 0 a 10, como você avalia o atendimento? Use números.'
+              text: '✅ Atendimento finalizado. De 0 a 10, como você avalia o atendimento? Use números.',
             });
             s.step++;
           }, 10000);
@@ -187,23 +191,23 @@ async function iniciarBot() {
             s.rating = nota;
             if (nota >= 8) {
               await safeSendMessage(sock, sender, {
-                text: `😄 Obrigado pela ótima avaliação, ${s.name}! Ficamos felizes em ajudar. Tenha um excelente dia!`
+                text: `😄 Obrigado pela ótima avaliação, ${s.name}! Ficamos felizes em ajudar. Tenha um excelente dia!`,
               });
               delete sessions[sender];
             } else if (nota >= 5) {
               await safeSendMessage(sock, sender, {
-                text: `🙂 Obrigado pela avaliação, ${s.name}. Estamos sempre buscando melhorar! Tenha um ótimo dia!`
+                text: `🙂 Obrigado pela avaliação, ${s.name}. Estamos sempre buscando melhorar! Tenha um ótimo dia!`,
               });
               delete sessions[sender];
             } else {
               s.step++;
               await safeSendMessage(sock, sender, {
-                text: `😞 Que pena que não atingimos suas expectativas. Poderia nos dizer como podemos melhorar?`
+                text: `😞 Que pena que não atingimos suas expectativas. Poderia nos dizer como podemos melhorar?`,
               });
             }
           } else {
             await safeSendMessage(sock, sender, {
-              text: '📊 Por favor, envie uma nota válida de 0 a 10.'
+              text: '📊 Por favor, envie uma nota válida de 0 a 10.',
             });
           }
           break;
@@ -211,14 +215,14 @@ async function iniciarBot() {
         case 7: // Feedback de melhoria
           s.improvement = textRaw;
           await safeSendMessage(sock, sender, {
-            text: `🙏 Obrigado pelo feedback, ${s.name}! Vamos trabalhar para melhorar nosso atendimento.`
+            text: `🙏 Obrigado pelo feedback, ${s.name}! Vamos trabalhar para melhorar nosso atendimento.`,
           });
           delete sessions[sender];
           break;
 
         default:
           await safeSendMessage(sock, sender, {
-            text: '🤖 Ocorreu um erro. Vamos reiniciar o atendimento.'
+            text: '🤖 Ocorreu um erro. Vamos reiniciar o atendimento.',
           });
           delete sessions[sender];
           break;
@@ -226,7 +230,5 @@ async function iniciarBot() {
     }
   });
 }
-
-
 
 iniciarBot();

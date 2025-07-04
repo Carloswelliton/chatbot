@@ -5,10 +5,11 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node app.js",
-    "dev": "node --watch app.js",
+    "start": "node ./src/app.js",
+    "dev": "node --watch ./src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [
     "whatsapp",
@@ -35,5 +36,8 @@
   },
   "bugs": {
     "url": "https://github.com/Carloswelliton/chatbot/issues"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2"
   }
 }
