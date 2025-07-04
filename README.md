@@ -7,6 +7,7 @@
 Um chatbot inteligente para WhatsApp que oferece atendimento automatizado com sistema de sessões e menu hierárquico.
 
 ## 📌 Índice
+
 - [Funcionalidades](#-funcionalidades-principais)
 - [Tecnologias](#-tecnologias-utilizadas)
 - [Instalação](#-como-executar)
@@ -17,6 +18,7 @@ Um chatbot inteligente para WhatsApp que oferece atendimento automatizado com si
 - [Licença](#-licença)
 
 ## ✨ Funcionalidades Principais
+
 - Atendimento automatizado por mensagens
 - Sistema de sessões por usuário
 - Menu interativo com múltiplos níveis
@@ -25,6 +27,7 @@ Um chatbot inteligente para WhatsApp que oferece atendimento automatizado com si
 - Redirecionamento para atendente humano
 
 ## 🛠️ Tecnologias Utilizadas
+
 - Node.js v18+
 - [Baileys](https://github.com/whiskeysockets/Baileys) (API WhatsApp)
 - Express.js
@@ -34,17 +37,21 @@ Um chatbot inteligente para WhatsApp que oferece atendimento automatizado com si
 ## 🚀 Como Executar
 
 ### Pré-requisitos
+
 - Node.js 18+ instalado
 - NPM ou Yarn
 - Número do WhatsApp válido
 
 ### Instalação
+
 ```bash
 git clone https://github.com/seu-usuario/chatbot-whatsapp.git
 cd chatbot-whatsapp
 npm install
 ```
+
 ## Configuração
+
 Crie um arquivo .env na raiz:
 
 ```bach
@@ -52,13 +59,16 @@ env
 WHATSAPP_NUMBER=5511999999999
 PORT=3000
 ```
+
 Iniciar o Bot
 
-```bash 
+```bash
 npm start
 Acesse http://localhost:3000 para escanear o QR Code
 ```
+
 ## 📋 Fluxo de Atendimento
+
 Usuário envia mensagem
 
 Bot coleta informações:
@@ -72,6 +82,7 @@ Detalhes adicionais
 Encaminha para atendente ou registra solicitação
 
 ## 🏗️ Estrutura do Projeto
+
 ```text
 .
 ├── auth/
@@ -79,7 +90,9 @@ Encaminha para atendente ou registra solicitação
 ├── index.js
 └── package.json
 ```
+
 ## 🤝 Como Contribuir
+
 Faça um Fork do projeto
 
 Crie uma Branch (git checkout -b feature/nova-feature)
@@ -91,11 +104,13 @@ Push para a Branch (git push origin feature/nova-feature)
 Abra um Pull Request
 
 ## 📄 Licença
+
 Distribuído sob licença MIT. Veja LICENSE para mais informações.
 
 ## ✉️ Contato
+
 Carlos Welliton - carloswelliton7@gmail.com
 
 Link do Projeto: https://github.com/seu-usuario/chatbot-whats
 
->**Nota:** Este projeto não é afiliado ao WhatsApp Inc. e deve ser usado em conformidade com os Termos de Serviço do WhatsApp.
+> **Nota:** Este projeto não é afiliado ao WhatsApp Inc. e deve ser usado em conformidade com os Termos de Serviço do WhatsApp.
